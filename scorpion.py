@@ -1,5 +1,6 @@
 from math import *
 import random 
+import sco_functions
 
 # α  = Angle de Hausse  			 				(degrès) 	[0:90]
 # Lb = Longueur du bras 			 				(mètre)		[0,1:5]
@@ -14,79 +15,42 @@ import random
 
 # Pour des soucis d'encodage "α"" a été changé en "a", "ρ" en "p" et "ν" en "v"
 
-population = {}
+population = []
 taille_population = 30
+generation = 50
 g  = 9.81
+p  = 7850
+E  = 210
 
-# regarder pour les random avec virgule ","
+population = sco_functions.randomScorpions(taille_population,g,p,E)
+population = sco_functions.eval(population)
 
-def randomScorpions(taillepop, pop):
-	for num in range(0,taille_population):
-		a  = random.randrange(0.1,5,0.01)
-		Lb = random.randrange(0.1,5,0.01)
-		b  = random.randrange(0.1,5,0.01)
-		h  = random.randrange(0.1,5,0.01)
-		Lc = random.randrange(0.1,5,0.01)
-		Lf = random.randrange(0.1,5,0.01)
-		p  = 7850
-		E  = 210
-		v  = random.randrange(0.24,0.30,0.01)
-		pop.update({"a":a,"Lb":Lb,"b":b,"h":h,"Lc":Lc,"Lf":Lf,"p":p,"E":E,"v":v})
+for i in range(0,generation):
+	bestPop = sco_functions.BestPop(population, taille_population)
+	# sco_functions.selectOne(taille_population,bestPop)
 
-population = randomScorpions(taille_population, population)
-print(population)
+"""print("(a) Angle : %f " % (population[1]["a"]))
+print("(Lb) Longueur du bras : %f " % (population[1]["Lb"]))
+print("(b) Base de la section du bras : %f " % (population[1]["b"]))
+print("(h) Hauteur de la section du bras : %f " % (population[1]["h"]))
+print("(Lc) Longueur corde : %f " % (population[1]["Lc"]))
+print("(Lf) Longueur flèche : %f " % (population[1]["Lf"]))
+print("(v) Coefficient de Poisson : %f " % (population[1]["v"]))
+print("(K) Ressort : %f " % (population[1]["K"]))
+print("(Lv) Longueur à vide : %f " % (population[1]["Lv"]))
+print("(Ld) Longueur déplacement : %f " % (population[1]["Ld"]))
+print("(Df) Diamètre projectile : %f " % (population[1]["Df"]))
+print("(mp) Masse projectile : %f " % (population[1]["mp"]))
+print("(V) Velocité : %f " % (population[1]["V"]))
+print("(d) Portée : %f " % (population[1]["d"]))
+print("(Ec) Energie Impacte : %f " % (population[1]["Ec"]))
+print("(Et) Energie TNT : %f " % (population[1]["Et"]))
+print("(I) Moment Quadratique : %f " % (population[1]["I"]))
+print("(F) Force de traction : %f " % (population[1]["F"]))
+print("(f) Flèche Bras : %f " % (population[1]["f"]))
+print("Score : %f " % (population[1]["score"]))"""
 
-
-# Ressort K (en N/m)
-def RessortK(E,v):
-	K = (1/3)*(E/(1-2*v))
-	return K
-
-# Longueur à vide (en m)
-def LongeurAVide(Lb,Lc):
-	Lv = sqrt(pow(Lb,2)-(1/4)*pow(Lc,2))
-	return Lv
-
-# Longueur du déplacement (en m)
-def LongueurDeplacement(Lf,Lv):
-	Ld = Lf - Lv
-	return Ld
-
-# Masse du projectile (en kg)
-def MasseProjectile(p,b,h,Lf):
-	mp = p*b*h*Lf
-	return mp
-
-# Vélocité V (en m/s
-def VelociteV(K,Ld,mp):
-	V = sqrt((K*pow(Ld,2))/mp)
-	return V
-
-# Portée P (en m)
-def PorteeP(V,g,a):
-	d = pow(V,2)/g*sin(2*a)
-	return d
-
-# Energie d'impact (en joules), assimilée à la force cinétique transformée à l'impact
-def EnergieImpact(mp,V):
-	Ec = 1/2*mp*pow(V,2)
-	return Ec
-
-# Equivalence Joule et gramme de TNT
-def JouleToTNT(Ec):
-	Et = Ec/4184
-	return Et
-
-# Moment quadratique du bras I (en m4)
-def MomentQuadratique(b,h):
-	I = (b*pow(h,3))/12
-	return I
-
-# Force de traction F (en N)
-def ForceDeTraction(K,Lf):
-	F = K*Lf
-	return F
-
-# Flèche du bras f max
-def FlecheBras(F,Lb,E,I):
-	f = (F*pow(Lb,3))/48*E*I
+"""for indiv in population:
+	# print("(Et) Energie TNT : %f " % (indiv["Et"]))
+	# print("(d) Portée : %f " % (indiv["d"]))
+	print("Score : %f " % (indiv["score"]))"""
