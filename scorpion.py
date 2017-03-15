@@ -24,9 +24,13 @@ E  = 210
 
 population = sco_functions.randomScorpions(taille_population,g,p,E)
 population = sco_functions.eval(population)
+bestPop = sco_functions.bestPop(population, taille_population)
+#childpop = sco_functions.selectChildPop(bestPop,taille_population)
 
-for i in range(0,generation):
-	bestPop = sco_functions.BestPop(population, taille_population)
+print(len(bestPop))
+
+# for i in range(0,generation):
+	# bestPop = sco_functions.BestPop(population, taille_population)
 	# sco_functions.selectOne(taille_population,bestPop)
 
 """print("(a) Angle : %f " % (population[1]["a"]))
@@ -50,7 +54,14 @@ print("(F) Force de traction : %f " % (population[1]["F"]))
 print("(f) Flèche Bras : %f " % (population[1]["f"]))
 print("Score : %f " % (population[1]["score"]))"""
 
-"""for indiv in population:
-	# print("(Et) Energie TNT : %f " % (indiv["Et"]))
-	# print("(d) Portée : %f " % (indiv["d"]))
-	print("Score : %f " % (indiv["score"]))"""
+# for indiv in population:
+	# if indiv["score"] > 0:
+		#print("(Ld) Longueur déplacement : %f " % (indiv["Ld"]))
+		#print("(f) Flèche Bras : %f " % (indiv["f"]))
+		#print("(Lv) Longueur à vide : %f " % (indiv["Lv"]))
+		#print("(Lf) Longueur flèche : %f " % (indiv["Lf"]))
+		#print("(Lc) Longueur corde : %f " % (indiv["Lc"]))
+		#print("(Lb) Longueur du bras : %f " % (indiv["Lb"]))
+		#print("(d) Portée : %f " % (indiv["d"]))
+		#print("(Et) Energie TNT : %f " % (indiv["Et"]))
+		# print("Score : %f " % (indiv["score"]))

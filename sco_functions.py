@@ -8,11 +8,9 @@ def RessortK(E,v):
 
 # Longueur à vide (en m)
 def LongeurAVide(Lb,Lc):
-	cLb=pow(Lb,2)
-	cLc=(1/4)*pow(Lc,2)
-	cT = (pow(Lb,2)) - ((1/4)*pow(Lc,2))
+	cT = (pow(Lb,2)) - (pow(Lc,2))
 	if cT > 0:
-		Lv = sqrt(cT)
+		Lv = (1/2)*sqrt(cT)
 	else:
 		Lv = 0
 	return Lv
@@ -59,34 +57,32 @@ def ForceDeTraction(K,Ld):
 
 # Flèche du bras f max
 def FlecheBras(F,Lb,E,I):
-	f = (F*pow(Lb,3))/48*E*I
+	f = (F*pow(Lb,3))/(48*E*I)
 	return f
 
 # Evaluation des individus
 def eval(pop):
 	for indiv in pop:
-		if indiv["Ld"] > indiv["f"] or indiv["Lv"] > indiv["Lf"] or indiv["Lc"] > indiv["Lb"]:
-			indiv["score"] = 0
-		else:
-			indiv["score"] = 3
+		indiv["score"] = 10
+		if indiv["Ld"] <= indiv["f"]:
+			indiv["score"] -= 3
+		if indiv["Lv"] <= indiv["Lf"]:
+			indiv["score"] -= 3
+		if indiv["Lc"] <= indiv["Lb"]:
+			indiv["score"] -= 3
 
-		if indiv["d"] >= 100 and indiv["d"] < 200:
-			indiv["score"] += 1
-		elif indiv["d"] >= 200 and indiv["d"] < 280 :
-			indiv["score"] += 2
-		elif indiv["d"] >= 280 and indiv["d"] <= 320:
-			indiv["score"] += 3
+
+		if indiv["d"] >= 200 and indiv["d"] < 280 :
+			indiv["score"] -= 1
 		elif indiv["d"] > 320 and indiv["d"] <= 400:
-			indiv["score"] += 2
-		elif indiv["d"] > 400 and indiv["d"] <= 500:
-			indiv["score"] += 1
+			indiv["score"] -= 1
+		elif indiv["d"] < 200 or indiv["d"] > 400:
+			indiv["score"] -= 2
 
-		if indiv["Et"] >= 1 and indiv["Et"] < 2:
-			indiv["score"] += 1
-		elif indiv["Et"] >= 2 and indiv["Et"] < 3:
-			indiv["score"] += 2
-		elif indiv["Et"] >= 3:
-			indiv["score"] += 3
+		if indiv["Et"] >= 0.1 and indiv["Et"] < 0.3:
+			indiv["score"] -= 1
+		elif indiv["Et"] <= 0.1:
+			indiv["score"] -= 2
 	return pop
 	
 # Génération des scorpions aléatoire
@@ -118,9 +114,39 @@ def randomScorpions(taillepop,g,p,E):
 	return pop
 
 # Selection de la meilleur population
-def BestPop(population, taille_population):
-	for indiv in population:
+def bestPop(population, taille_population):
+	best_pop = []
+	taille_selec = taille_population/2
+	i=0
+	for i in range(0,int(taille_selec)):
+		best_indiv = 0
+		worst_indiv = 0
+		indivs = random.sample(range(0,taille_population-1),2)
+		indiv1 = population[indivs[0]]
+		indiv2 = population[indivs[1]]
 
+		if indiv1["score"] > indiv2["score"]:
+			best_indiv = indiv1
+			worst_indiv = indiv2
+		elif indiv2["score"] > indiv1["score"]:
+			best_indiv = indiv2
+			worst_indiv = indiv1
+
+		percent = random.randrange(1,100)
+
+		if best_indiv != 0 and worst_indiv != 0:
+			if percent > 30:
+				best_pop.append(best_indiv)
+			elif percent <= 30:
+				best_pop.append(worst_indiv)
+		else:
+			if percent > 50:
+				best_pop.append(indiv1)
+			elif percent <= 50:
+				best_pop.append(indiv2)
+	return best_pop
+
+		
 
 # Selection
 def selectOne(population):
