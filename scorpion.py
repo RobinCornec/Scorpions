@@ -75,7 +75,8 @@ for i in range(0,generation):
 
 		if newIndiv not in population and newIndiv2 not in population:
 			population.append(newIndiv)
-			i+=1
+			population.append(newIndiv2)
+			i+=2
 	print("Selection : done")
 
 
