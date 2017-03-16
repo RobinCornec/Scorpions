@@ -57,27 +57,25 @@ for i in range(0,generation):
 		
 
 	print("Bestpop : start")
-	bestPop = sco_functions.bestPop(population, taille_population)
+	population = sco_functions.bestPop(population, taille_population,g,p,E)
 	print("Bestpop : done")
 
-	population = []
-
-	i = 0
-	print("Selection : start")
-	while i < taille_population:
-		parent1 = sco_functions.selectOne(bestPop)
-		popTemp = list(bestPop)
-		popTemp.remove(parent1)
-		parent2 = sco_functions.selectOne(popTemp)
-
-		newIndiv = sco_functions.childPop(parent1,parent2,g,p,E)
-		newIndiv2 = sco_functions.childPop(parent2,parent1,g,p,E)
-
-		if newIndiv not in population and newIndiv2 not in population:
-			population.append(newIndiv)
-			population.append(newIndiv2)
-			i+=2
-	print("Selection : done")
+	#i = 0
+	#print("Selection : start")
+	#while i < taille_population:
+	#	parents = sco_functions.selectOne(bestPop)
+	#	#popTemp = list(bestPop)
+	#	#popTemp.remove(parent1)
+	#	#parent2 = sco_functions.selectOne(popTemp)
+#
+	#	newIndiv = sco_functions.childPop(parents[0],parents[1],g,p,E)
+	#	newIndiv2 = sco_functions.childPop(parents[1],parents[0],g,p,E)
+#
+	#	if newIndiv not in population and newIndiv2 not in population:
+	#		population.append(newIndiv)
+	#		population.append(newIndiv2)
+	#		i+=2
+	#print("Selection : done")
 
 
 plt.plot(xgeneration, ybetter,'r',xgeneration,yaverage,'b',xgeneration,yless,'g')

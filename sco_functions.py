@@ -117,57 +117,84 @@ def randomScorpions(taillepop,g,p,E):
 	return pop
 
 # Selection de la meilleur population
-def bestPop(population, taille_population):
-	best_pop = []
-	taille_selec = taille_population/2
-	i=0
-	for i in range(0,int(taille_selec)):
-		best_indiv = 0
-		worst_indiv = 0
-		indivs = random.sample(range(0,taille_population-1),2)
-		indiv1 = population[indivs[0]]
-		indiv2 = population[indivs[1]]
-
-		if indiv1["score"] > indiv2["score"]:
-			best_indiv = indiv1
-			worst_indiv = indiv2
-		elif indiv2["score"] > indiv1["score"]:
-			best_indiv = indiv2
-			worst_indiv = indiv1
-
-		percent = random.randrange(1,100)
-
-		if best_indiv != 0 and worst_indiv != 0:
-			percentscore = (worst_indiv["score"]/best_indiv["score"])*50
-			if percent > percentscore:
-				best_pop.append(best_indiv)
-				choicepop = best_indiv
-			elif percent <= percentscore:
-				best_pop.append(worst_indiv)
-				choicepop = worst_indiv
-		else:
-			if percent > 50:
-				best_pop.append(indiv1)
-				choicepop = indiv1
-			elif percent <= 50:
-				best_pop.append(indiv2)
-				choicepop = indiv2
-
-		population.remove(choicepop)
-		taille_population -= 1
-	return best_pop
+#def bestPop(population, taille_population):
+#	best_pop = []
+#	taille_selec = taille_population/2
+#	i=0
+#	for i in range(0,int(taille_selec)):
+#		best_indiv = 0
+#		worst_indiv = 0
+#		indivs = random.sample(range(0,taille_population-1),2)
+#		indiv1 = population[indivs[0]]
+#		indiv2 = population[indivs[1]]
+#
+#		if indiv1["score"] > indiv2["score"]:
+#			best_indiv = indiv1
+#			worst_indiv = indiv2
+#		elif indiv2["score"] > indiv1["score"]:
+#			best_indiv = indiv2
+#			worst_indiv = indiv1
+#
+#		percent = random.randrange(1,100)
+#
+#		if best_indiv != 0 and worst_indiv != 0:
+#			percentscore = (worst_indiv["score"]/best_indiv["score"])*50
+#			if percent > percentscore:
+#				best_pop.append(best_indiv)
+#				choicepop = best_indiv
+#			elif percent <= percentscore:
+#				best_pop.append(worst_indiv)
+#				choicepop = worst_indiv
+#		else:
+#			if percent > 50:
+#				best_pop.append(indiv1)
+#				choicepop = indiv1
+#			elif percent <= 50:
+#				best_pop.append(indiv2)
+#				choicepop = indiv2
+#
+#		population.remove(choicepop)
+#		taille_population -= 1
+#	return best_pop
 
 		
 
 # Selection
-def selectOne(population):
-    max     = sum([c["score"] for c in population])
-    pick    = random.uniform(0, max)
-    current = 0
-    for chromosome in population:
-        current += chromosome["score"]
-        if current > pick:
-            return chromosome
+# def selectOne(population, taille_population):
+#     max     = sum([c["score"] for c in population])
+#     pick    = random.uniform(0, max)
+#     current = 0
+#     for chromosome in population:
+#         current += chromosome["score"]
+#         if current > pick:
+#             return chromosome
+
+def bestPop(population,taille_population,g,p,E):
+	child_pop = []
+	taille_selec = taille_population/2
+
+	for i in range(0,int(taille_selec)):
+		champions = random.sample(population,4)
+		if champions[0]["score"] > champions[0]["score"]:
+			parent1 = champions[0]
+		else:
+			parent1 = champions[1]
+
+		if champions[0]["score"] > champions[0]["score"]:
+			parent2 = champions[2]
+		else:
+			parent2 = champions[3]
+
+		child1 = childPop(parent1,parent2,g,p,E)
+		child2 = childPop(parent2,parent1,g,p,E)
+
+		child_pop.append(child1)
+		child_pop.append(child2)
+
+	return child_pop
+
+
+
 
 def childPop(parent1,parent2,g,p,E):
 	indiv = {}
