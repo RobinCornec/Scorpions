@@ -1,6 +1,8 @@
 from math import *
 import random 
 import sco_functions
+import matplotlib.pyplot as plt
+import numpy as np
 
 # α  = Angle de Hausse  			 				(degrès) 	[0:90]
 # Lb = Longueur du bras 			 				(mètre)		[0,1:5]
@@ -16,22 +18,78 @@ import sco_functions
 # Pour des soucis d'encodage "α"" a été changé en "a", "ρ" en "p" et "ν" en "v"
 
 population = []
-taille_population = 30
-generation = 50
+ybetter = []
+yaverage = []
+yless = []
+xgeneration = []
+taille_population = 10000
+generation = 300
 g  = 9.81
 p  = 7850
 E  = 210
 
+print("Random : start")
 population = sco_functions.randomScorpions(taille_population,g,p,E)
-population = sco_functions.eval(population)
-bestPop = sco_functions.bestPop(population, taille_population)
-#childpop = sco_functions.selectChildPop(bestPop,taille_population)
+print("Random : done")
 
-print(len(bestPop))
+for i in range(0,generation):
+	print("Eval : start")
+	population = sco_functions.eval(population)
+	print("Eval : done")
 
-# for i in range(0,generation):
-	# bestPop = sco_functions.BestPop(population, taille_population)
-	# sco_functions.selectOne(taille_population,bestPop)
+	print("-------------------------- Génération %i --------------------------" % i)
+	best_score = 1
+	less_score = 10
+	listaverage = []
+	xgeneration.append(i)
+	for indiv in population:
+		listaverage.append(indiv["score"])
+		if indiv["score"] > best_score:
+			best_score = indiv["score"]
+		if indiv["score"] < less_score:
+			less_score = indiv["score"]
+
+	avg_score = np.average(listaverage)
+
+	yaverage.append(avg_score)
+	ybetter.append(best_score)
+	yless.append(less_score)
+		
+
+	print("Bestpop : start")
+	bestPop = sco_functions.bestPop(population, taille_population)
+	print("Bestpop : done")
+
+	population = []
+
+	i = 0
+	print("Selection : start")
+	while i < taille_population:
+		parent1 = sco_functions.selectOne(bestPop)
+		popTemp = list(bestPop)
+		popTemp.remove(parent1)
+		parent2 = sco_functions.selectOne(popTemp)
+
+		newIndiv = sco_functions.childPop(parent1,parent2,g,p,E)
+		newIndiv2 = sco_functions.childPop(parent2,parent1,g,p,E)
+
+		if newIndiv not in population and newIndiv2 not in population:
+			population.append(newIndiv)
+			i+=1
+	print("Selection : done")
+
+
+plt.plot(xgeneration, ybetter,'r',xgeneration,yaverage,'b',xgeneration,yless,'g')
+plt.ylabel('scores')
+plt.xlabel('génération')
+plt.show()
+
+
+
+
+
+
+
 
 """print("(a) Angle : %f " % (population[1]["a"]))
 print("(Lb) Longueur du bras : %f " % (population[1]["Lb"]))
@@ -54,14 +112,14 @@ print("(F) Force de traction : %f " % (population[1]["F"]))
 print("(f) Flèche Bras : %f " % (population[1]["f"]))
 print("Score : %f " % (population[1]["score"]))"""
 
-# for indiv in population:
+# for indiv in bestPop:
 	# if indiv["score"] > 0:
-		#print("(Ld) Longueur déplacement : %f " % (indiv["Ld"]))
-		#print("(f) Flèche Bras : %f " % (indiv["f"]))
-		#print("(Lv) Longueur à vide : %f " % (indiv["Lv"]))
-		#print("(Lf) Longueur flèche : %f " % (indiv["Lf"]))
-		#print("(Lc) Longueur corde : %f " % (indiv["Lc"]))
-		#print("(Lb) Longueur du bras : %f " % (indiv["Lb"]))
-		#print("(d) Portée : %f " % (indiv["d"]))
-		#print("(Et) Energie TNT : %f " % (indiv["Et"]))
+		# print("(Ld) Longueur déplacement : %f " % (indiv["Ld"]))
+		# print("(f) Flèche Bras : %f " % (indiv["f"]))
+		# print("(Lv) Longueur à vide : %f " % (indiv["Lv"]))
+		# print("(Lf) Longueur flèche : %f " % (indiv["Lf"]))
+		# print("(Lc) Longueur corde : %f " % (indiv["Lc"]))
+		# print("(Lb) Longueur du bras : %f " % (indiv["Lb"]))
+		# print("(d) Portée : %f " % (indiv["d"]))
+		# print("(Et) Energie TNT : %f " % (indiv["Et"]))
 		# print("Score : %f " % (indiv["score"]))

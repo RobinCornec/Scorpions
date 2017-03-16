@@ -72,9 +72,9 @@ def eval(pop):
 			indiv["score"] -= 3
 
 
-		if indiv["d"] >= 200 and indiv["d"] < 280 :
+		if indiv["d"] >= 200 and indiv["d"] < 270 :
 			indiv["score"] -= 1
-		elif indiv["d"] > 320 and indiv["d"] <= 400:
+		elif indiv["d"] > 330 and indiv["d"] <= 400:
 			indiv["score"] -= 1
 		elif indiv["d"] < 200 or indiv["d"] > 400:
 			indiv["score"] -= 2
@@ -83,6 +83,9 @@ def eval(pop):
 			indiv["score"] -= 1
 		elif indiv["Et"] <= 0.1:
 			indiv["score"] -= 2
+
+		if indiv["score"] <= 0:
+			indiv["score"] = 1
 	return pop
 	
 # Génération des scorpions aléatoire
@@ -135,25 +138,83 @@ def bestPop(population, taille_population):
 		percent = random.randrange(1,100)
 
 		if best_indiv != 0 and worst_indiv != 0:
-			if percent > 30:
+			percentscore = (worst_indiv["score"]/best_indiv["score"])*50
+			if percent > percentscore:
 				best_pop.append(best_indiv)
-			elif percent <= 30:
+				choicepop = best_indiv
+			elif percent <= percentscore:
 				best_pop.append(worst_indiv)
+				choicepop = worst_indiv
 		else:
 			if percent > 50:
 				best_pop.append(indiv1)
+				choicepop = indiv1
 			elif percent <= 50:
 				best_pop.append(indiv2)
+				choicepop = indiv2
+
+		population.remove(choicepop)
+		taille_population -= 1
 	return best_pop
 
 		
 
 # Selection
 def selectOne(population):
-    max     = sum([c.score for c in population])
+    max     = sum([c["score"] for c in population])
     pick    = random.uniform(0, max)
     current = 0
     for chromosome in population:
-        current += chromosome.score
+        current += chromosome["score"]
         if current > pick:
             return chromosome
+
+def childPop(parent1,parent2,g,p,E):
+	indiv = {}
+	a  = parent1["a"]
+	Lb = parent1["Lb"]
+	b  = parent1["b"]
+	h  = parent1["h"]
+
+	Lc = parent2["Lc"]
+	Lf = parent2["Lf"]
+	v  = parent2["v"]
+	Df = parent2["Df"]
+
+
+	toChange = random.randrange(1,100)
+	if toChange == 1:
+		valueToChange = random.randrange(1,8)
+		if valueToChange == 1:
+			a  = radians(random.randrange(0,90))
+		elif valueToChange == 2:
+			Lb = random.randrange(1,15)
+		elif valueToChange == 3:
+			b  = random.randrange(1,15)
+		elif valueToChange == 4:
+			h  = random.randrange(1,15)
+		elif valueToChange == 5:
+			Lc = random.randrange(1,15)
+		elif valueToChange == 6:
+			Lf = random.uniform(1,2)
+		elif valueToChange == 7:
+			v  = random.uniform(0.24,0.30)
+		elif valueToChange == 8:
+			Df = random.uniform(0.01,0.05)
+
+
+	K  = RessortK(E,v)
+	Lv = LongeurAVide(Lb,Lc)
+	Ld = LongueurDeplacement(Lf,Lv)
+	mp = MasseProjectile(p,Df,Lf)
+	V  = VelociteV(K,Ld,mp)
+	d  = PorteeP(V,g,a)
+	Ec = EnergieImpact(mp,V)
+	Et = JouleToTNT(Ec)
+	I = MomentQuadratique(b,h)
+	F = ForceDeTraction(K,Ld)
+	f = FlecheBras(F,Lb,E,I)
+
+	indiv.update({"a":a,"Lb":Lb,"b":b,"h":h,"Lc":Lc,"Lf":Lf,"v":v,"K":K,"Lv":Lv,"Ld":Ld,"Df":Df,"mp":mp,"V":V,"d":d,"Ec":Ec,"Et":Et,"I":I,"F":F,"f":f})
+
+	return indiv
