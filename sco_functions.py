@@ -174,19 +174,83 @@ def bestPop(population,taille_population,g,p,E):
 	taille_selec = taille_population/2
 
 	for i in range(0,int(taille_selec)):
-		champions = random.sample(population,4)
-		if champions[0]["score"] > champions[0]["score"]:
-			parent1 = champions[0]
-		else:
-			parent1 = champions[1]
+		champions = random.sample(population,16)
 
-		if champions[0]["score"] > champions[0]["score"]:
-			parent2 = champions[2]
+		if champions[0]["score"] > champions[1]["score"]:
+			qchamp1 = champions[0]
 		else:
-			parent2 = champions[3]
+			qchamp1 = champions[1]
 
-		child1 = childPop(parent1,parent2,g,p,E)
-		child2 = childPop(parent2,parent1,g,p,E)
+		if champions[2]["score"] > champions[3]["score"]:
+			qchamp2 = champions[2]
+		else:
+			qchamp2 = champions[3]
+
+		if champions[4]["score"] > champions[5]["score"]:
+			qchamp3 = champions[4]
+		else:
+			qchamp3 = champions[5]
+
+		if champions[6]["score"] > champions[7]["score"]:
+			qchamp4 = champions[6]
+		else:
+			qchamp4 = champions[7]
+
+		if champions[8]["score"] > champions[9]["score"]:
+			qchamp5 = champions[8]
+		else:
+			qchamp5 = champions[9]
+
+		if champions[10]["score"] > champions[11]["score"]:
+			qchamp6 = champions[10]
+		else:
+			qchamp6 = champions[11]
+
+		if champions[12]["score"] > champions[13]["score"]:
+			qchamp7 = champions[12]
+		else:
+			qchamp7 = champions[13]
+
+		if champions[14]["score"] > champions[15]["score"]:
+			qchamp8 = champions[14]
+		else:
+			qchamp8 = champions[15]
+
+		if qchamp1["score"] > qchamp2["score"]:
+			dchamp1 = qchamp1
+		else:
+			dchamp1 = qchamp2
+
+		if qchamp3["score"] > qchamp4["score"]:
+			dchamp2 = qchamp3
+		else:
+			dchamp2 = qchamp4
+
+		if qchamp5["score"] > qchamp6["score"]:
+			dchamp3 = qchamp5
+		else:
+			dchamp3 = qchamp6
+
+		if qchamp7["score"] > qchamp8["score"]:
+			dchamp4 = qchamp7
+		else:
+			dchamp4 = qchamp8
+
+		if dchamp1["score"] > dchamp2["score"]:
+			fchamp1 = dchamp1
+		else:
+			fchamp1 = dchamp2
+
+		if dchamp3["score"] > dchamp4["score"]:
+			fchamp2 = dchamp3
+		else:
+			fchamp2 = dchamp4
+
+
+
+
+		child1 = childPop(fchamp1,fchamp2,g,p,E)
+		child2 = childPop(fchamp2,fchamp1,g,p,E)
 
 		child_pop.append(child1)
 		child_pop.append(child2)
