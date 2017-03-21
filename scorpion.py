@@ -10,6 +10,7 @@ import numpy as np
 # h  = Hauteur de la section du bras 				(mètre)		[0,1:5]
 # Lc = Longueur de la corde 		 				(mètre)		[0,1:5]
 # Lf = Longueur de la flèche		 				(mètre)		[0,1:5]
+# Df = Diamètre de la flèche						(mètre)		[0,01:0,05]
 # ρ  = Masse volumique de la flèche  				(kg/m^3) 	7850
 # E  = Module de Young du matériaux d l'arc			(GPa)		210
 # ν  = Coefficient de Poisson du matériaux de l'arc				[0,24:0,30]
