@@ -116,59 +116,7 @@ def randomScorpions(taillepop,g,p,E):
 		pop.append(indiv)
 	return pop
 
-# Selection de la meilleur population
-#def bestPop(population, taille_population):
-#	best_pop = []
-#	taille_selec = taille_population/2
-#	i=0
-#	for i in range(0,int(taille_selec)):
-#		best_indiv = 0
-#		worst_indiv = 0
-#		indivs = random.sample(range(0,taille_population-1),2)
-#		indiv1 = population[indivs[0]]
-#		indiv2 = population[indivs[1]]
-#
-#		if indiv1["score"] > indiv2["score"]:
-#			best_indiv = indiv1
-#			worst_indiv = indiv2
-#		elif indiv2["score"] > indiv1["score"]:
-#			best_indiv = indiv2
-#			worst_indiv = indiv1
-#
-#		percent = random.randrange(1,100)
-#
-#		if best_indiv != 0 and worst_indiv != 0:
-#			percentscore = (worst_indiv["score"]/best_indiv["score"])*50
-#			if percent > percentscore:
-#				best_pop.append(best_indiv)
-#				choicepop = best_indiv
-#			elif percent <= percentscore:
-#				best_pop.append(worst_indiv)
-#				choicepop = worst_indiv
-#		else:
-#			if percent > 50:
-#				best_pop.append(indiv1)
-#				choicepop = indiv1
-#			elif percent <= 50:
-#				best_pop.append(indiv2)
-#				choicepop = indiv2
-#
-#		population.remove(choicepop)
-#		taille_population -= 1
-#	return best_pop
-
-		
-
-# Selection
-# def selectOne(population, taille_population):
-#     max     = sum([c["score"] for c in population])
-#     pick    = random.uniform(0, max)
-#     current = 0
-#     for chromosome in population:
-#         current += chromosome["score"]
-#         if current > pick:
-#             return chromosome
-
+# Choix de la meilleur pop
 def bestPop(population,taille_population,g,p,E):
 	child_pop = []
 	taille_selec = taille_population/2
@@ -180,86 +128,82 @@ def bestPop(population,taille_population,g,p,E):
 			qchamp1 = champions[0]
 		else:
 			qchamp1 = champions[1]
-
+		
 		if champions[2]["score"] > champions[3]["score"]:
 			qchamp2 = champions[2]
 		else:
 			qchamp2 = champions[3]
-
+		
 		if champions[4]["score"] > champions[5]["score"]:
 			qchamp3 = champions[4]
 		else:
 			qchamp3 = champions[5]
-
+		
 		if champions[6]["score"] > champions[7]["score"]:
 			qchamp4 = champions[6]
 		else:
 			qchamp4 = champions[7]
-
+		
 		if champions[8]["score"] > champions[9]["score"]:
 			qchamp5 = champions[8]
 		else:
 			qchamp5 = champions[9]
-
+		
 		if champions[10]["score"] > champions[11]["score"]:
 			qchamp6 = champions[10]
 		else:
 			qchamp6 = champions[11]
-
+		
 		if champions[12]["score"] > champions[13]["score"]:
 			qchamp7 = champions[12]
 		else:
 			qchamp7 = champions[13]
-
+		
 		if champions[14]["score"] > champions[15]["score"]:
 			qchamp8 = champions[14]
 		else:
 			qchamp8 = champions[15]
-
+		
 		if qchamp1["score"] > qchamp2["score"]:
 			dchamp1 = qchamp1
 		else:
 			dchamp1 = qchamp2
-
+		
 		if qchamp3["score"] > qchamp4["score"]:
 			dchamp2 = qchamp3
 		else:
 			dchamp2 = qchamp4
-
+		
 		if qchamp5["score"] > qchamp6["score"]:
 			dchamp3 = qchamp5
 		else:
 			dchamp3 = qchamp6
-
+		
 		if qchamp7["score"] > qchamp8["score"]:
 			dchamp4 = qchamp7
 		else:
 			dchamp4 = qchamp8
-
+		
 		if dchamp1["score"] > dchamp2["score"]:
 			fchamp1 = dchamp1
 		else:
 			fchamp1 = dchamp2
-
+		
 		if dchamp3["score"] > dchamp4["score"]:
 			fchamp2 = dchamp3
 		else:
 			fchamp2 = dchamp4
 
+		childs = childPop(fchamp1,fchamp2,g,p,E)
 
-
-
-		child1 = childPop(fchamp1,fchamp2,g,p,E)
-		child2 = childPop(fchamp2,fchamp1,g,p,E)
-
-		child_pop.append(child1)
-		child_pop.append(child2)
+		child_pop.append(childs)
+		child_pop.append(childs)
 
 	return child_pop
 
 
 
-
+# Création de la population enfant
 def childPop(parent1,parent2,g,p,E):
 	indiv = {}
 	a  = parent1["a"]

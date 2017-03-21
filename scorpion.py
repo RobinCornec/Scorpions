@@ -22,22 +22,22 @@ ybetter = []
 yaverage = []
 yless = []
 xgeneration = []
-taille_population = 100
-generation = 50
+taille_population = 10000
+generation = 100
 g  = 9.81
 p  = 7850
 E  = 210
 
-print("Random : start")
+# Génération de la population
 population = sco_functions.randomScorpions(taille_population,g,p,E)
-print("Random : done")
 
+# Pour chaque génération : 
 for i in range(0,generation):
-	print("Eval : start")
+# l'évaluer
 	population = sco_functions.eval(population)
-	print("Eval : done")
 
 	print("-------------------------- Génération %i --------------------------" % i)
+# Gestion des listes pour l'affichage des courbes
 	best_score = 1
 	less_score = 10
 	listaverage = []
@@ -55,70 +55,11 @@ for i in range(0,generation):
 	ybetter.append(best_score)
 	yless.append(less_score)
 		
-
-	print("Bestpop : start")
+# Génération de la population enfant
 	population = sco_functions.bestPop(population, taille_population,g,p,E)
-	print("Bestpop : done")
 
-	#i = 0
-	#print("Selection : start")
-	#while i < taille_population:
-	#	parents = sco_functions.selectOne(bestPop)
-	#	#popTemp = list(bestPop)
-	#	#popTemp.remove(parent1)
-	#	#parent2 = sco_functions.selectOne(popTemp)
-#
-	#	newIndiv = sco_functions.childPop(parents[0],parents[1],g,p,E)
-	#	newIndiv2 = sco_functions.childPop(parents[1],parents[0],g,p,E)
-#
-	#	if newIndiv not in population and newIndiv2 not in population:
-	#		population.append(newIndiv)
-	#		population.append(newIndiv2)
-	#		i+=2
-	#print("Selection : done")
-
-
+# Affichage des courbes (Meilleur, moins bon et moyenne de la population pour chaque génération)
 plt.plot(xgeneration, ybetter,'r',xgeneration,yaverage,'b',xgeneration,yless,'g')
 plt.ylabel('scores')
 plt.xlabel('génération')
 plt.show()
-
-
-
-
-
-
-
-
-"""print("(a) Angle : %f " % (population[1]["a"]))
-print("(Lb) Longueur du bras : %f " % (population[1]["Lb"]))
-print("(b) Base de la section du bras : %f " % (population[1]["b"]))
-print("(h) Hauteur de la section du bras : %f " % (population[1]["h"]))
-print("(Lc) Longueur corde : %f " % (population[1]["Lc"]))
-print("(Lf) Longueur flèche : %f " % (population[1]["Lf"]))
-print("(v) Coefficient de Poisson : %f " % (population[1]["v"]))
-print("(K) Ressort : %f " % (population[1]["K"]))
-print("(Lv) Longueur à vide : %f " % (population[1]["Lv"]))
-print("(Ld) Longueur déplacement : %f " % (population[1]["Ld"]))
-print("(Df) Diamètre projectile : %f " % (population[1]["Df"]))
-print("(mp) Masse projectile : %f " % (population[1]["mp"]))
-print("(V) Velocité : %f " % (population[1]["V"]))
-print("(d) Portée : %f " % (population[1]["d"]))
-print("(Ec) Energie Impacte : %f " % (population[1]["Ec"]))
-print("(Et) Energie TNT : %f " % (population[1]["Et"]))
-print("(I) Moment Quadratique : %f " % (population[1]["I"]))
-print("(F) Force de traction : %f " % (population[1]["F"]))
-print("(f) Flèche Bras : %f " % (population[1]["f"]))
-print("Score : %f " % (population[1]["score"]))"""
-
-# for indiv in bestPop:
-	# if indiv["score"] > 0:
-		# print("(Ld) Longueur déplacement : %f " % (indiv["Ld"]))
-		# print("(f) Flèche Bras : %f " % (indiv["f"]))
-		# print("(Lv) Longueur à vide : %f " % (indiv["Lv"]))
-		# print("(Lf) Longueur flèche : %f " % (indiv["Lf"]))
-		# print("(Lc) Longueur corde : %f " % (indiv["Lc"]))
-		# print("(Lb) Longueur du bras : %f " % (indiv["Lb"]))
-		# print("(d) Portée : %f " % (indiv["d"]))
-		# print("(Et) Energie TNT : %f " % (indiv["Et"]))
-		# print("Score : %f " % (indiv["score"]))
